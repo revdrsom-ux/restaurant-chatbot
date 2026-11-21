@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <!-- Makes the page fit phone screens instead of shrinking a desktop layout -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reston Restaurant ChatBot</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- The whole chat window -->
+  <main class="chat">
+    <header class="chat-header">
+      <h1>Reston Restaurant ChatBot</h1>
+    </header>
+
+    <!-- script.js adds the chat bubbles here -->
+    <div id="messages" class="messages"></div>
+
+    <!--
+      Quick buttons. Each one sends its data-send value as a message, exactly
+      like typing it. The Order button sends the word "order", which always
+      opens the menu.
+    -->
+    <div id="quick-actions" class="quick-actions">
+      <button type="button" data-send="order">1 · Order</button>
+      <button type="button" data-send="97">97 · Current</button>
+      <button type="button" data-send="99">99 · Checkout</button>
+      <button type="button" data-send="98">98 · History</button>
+      <button type="button" data-send="0">0 · Cancel</button>
+    </div>
+
+    <!-- Typed messages: Enter or the Send button -->
+    <form id="chat-form" class="chat-form">
+      <input
+        id="message-input"
+        type="text"
+        placeholder="Type a number, e.g. 1"
+        autocomplete="off"
+        required
+      />
+      <button type="submit">Send</button>
+    </form>
+  </main>
+
+  <!-- Loaded last so the elements above exist when the script looks for them -->
+  <script src="script.js"></script>
+</body>
+</html>

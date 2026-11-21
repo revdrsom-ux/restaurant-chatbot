@@ -1,0 +1,312 @@
+/*
+ * public/style.css
+ *
+ * Styles for the Reston Restaurant ChatBot page.
+ * Sections: page and background, chat window, messages, quick buttons,
+ * input form, menu panel, payment button and message, small screens.
+ */
+
+/* ---------- Page and background ---------- */
+
+/* Padding and borders count inside an element's width, so boxes never overflow */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #2b1a14; /* fallback colour if the photo is missing */
+  display: flex;
+  justify-content: center; /* centre the chat window left to right */
+  align-items: center; /* centre it top to bottom */
+  min-height: 100vh;
+}
+
+/*
+ * The blurred restaurant photo sits on its own layer behind everything, so
+ * only the photo is blurred and the chat window stays sharp.
+ */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0; /* stretch to all four screen edges */
+  background-image:
+    linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)), /* dark tint */
+    url('restaurant.jpg');
+  background-size: cover;
+  background-position: center;
+  filter: blur(8px);
+  transform: scale(1.1); /* hides the faded edges the blur creates */
+  z-index: -1; /* behind the chat window */
+}
+
+/* ---------- Chat window ---------- */
+
+.chat {
+  position: relative; /* lets the menu panel sit exactly on top of it */
+  width: 100%;
+  max-width: 480px;
+  height: 90vh;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(6px); /* frosted-glass look */
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column; /* header, messages, buttons, form stack vertically */
+  overflow: hidden;
+}
+
+.chat-header {
+  background: #b5391c;
+  color: #ffffff;
+  padding: 14px 16px;
+}
+
+.chat-header h1 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+/* ---------- Messages ---------- */
+
+/* The scrolling area that holds all the bubbles */
+.messages {
+  flex: 1; /* take all the space between the header and the buttons */
+  overflow-y: auto;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.message {
+  max-width: 80%;
+  padding: 10px 14px;
+  border-radius: 14px;
+  line-height: 1.4;
+  white-space: pre-wrap; /* keeps the line breaks in the bot's replies */
+}
+
+/* The bot's bubbles: grey, on the left */
+.message.bot {
+  align-self: flex-start;
+  background: #eeeeee;
+}
+
+/* The customer's bubbles: red, on the right */
+.message.user {
+  align-self: flex-end;
+  background: #b5391c;
+  color: #ffffff;
+}
+
+/* ---------- Quick buttons ---------- */
+
+.quick-actions {
+  display: flex;
+  gap: 8px;
+  padding: 8px 12px;
+  overflow-x: auto; /* scrolls sideways on narrow phones instead of squashing */
+  border-top: 1px solid #dddddd;
+}
+
+.quick-actions button {
+  flex: 0 0 auto; /* do not stretch or shrink */
+  padding: 6px 12px;
+  border: 1px solid #b5391c;
+  border-radius: 16px;
+  background: #ffffff;
+  color: #b5391c;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.quick-actions button:hover {
+  background: #b5391c;
+  color: #ffffff;
+}
+
+/* ---------- Input form ---------- */
+
+.chat-form {
+  display: flex;
+  gap: 8px;
+  padding: 12px;
+}
+
+.chat-form input {
+  flex: 1; /* fill the width the button does not use */
+  padding: 10px 12px;
+  border: 1px solid #cccccc;
+  border-radius: 20px;
+  font-size: 1rem; /* also stops phones from zooming in when the box is tapped */
+}
+
+.chat-form button {
+  padding: 10px 18px;
+  border: none;
+  border-radius: 20px;
+  background: #b5391c;
+  color: #ffffff;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+/* ---------- Menu panel (covers the whole chat window) ---------- */
+
+.menu-panel {
+  position: absolute;
+  inset: 0; /* touch all four edges of the chat window */
+  z-index: 10; /* in front of the messages and the form */
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+}
+
+.menu-panel-head {
+  display: flex;
+  justify-content: space-between; /* title left, close button right */
+  align-items: center;
+  padding: 12px 16px;
+  background: #b5391c;
+  color: #ffffff;
+}
+
+.menu-panel-head h2 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.menu-panel-head button {
+  border: none;
+  background: transparent;
+  color: #ffffff;
+  font-size: 1.3rem;
+  cursor: pointer;
+  padding: 4px 8px;
+}
+
+/* The list area takes all the height between the heading and bottom buttons */
+.menu-items {
+  flex: 1;
+  min-height: 0; /* lets the list shrink properly inside the flex column */
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto; /* last resort only, if a very short screen cannot fit all rows */
+}
+
+/* Every row gets an equal share of the height, so the menu fits any screen */
+.menu-item {
+  flex: 1 1 0;
+  min-height: 44px; /* keeps each row big enough to tap */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  padding: 0 16px;
+  border-bottom: 1px solid #f0e6e2;
+}
+
+/* clamp(min, preferred, max): text grows and shrinks with the screen height */
+.menu-item-name {
+  font-weight: bold;
+  font-size: clamp(0.85rem, 2.4vh, 1.05rem);
+}
+
+.menu-item-price {
+  color: #666666;
+  font-size: clamp(0.8rem, 2.1vh, 0.95rem);
+  margin-top: 2px;
+}
+
+.menu-item-add {
+  flex: 0 0 auto;
+  padding: 8px 18px;
+  border: none;
+  border-radius: 16px;
+  background: #b5391c;
+  color: #ffffff;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+.menu-panel-foot {
+  display: flex;
+  gap: 8px;
+  padding: 10px 12px;
+  border-top: 1px solid #dddddd;
+  background: #fafafa;
+}
+
+.menu-panel-foot button {
+  flex: 1; /* both buttons share the width equally */
+  padding: 10px 8px;
+  border: 1px solid #b5391c;
+  border-radius: 18px;
+  background: #ffffff;
+  color: #b5391c;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+/* The Checkout button is solid red so it stands out */
+.menu-panel-foot button:last-child {
+  background: #b5391c;
+  color: #ffffff;
+}
+
+/* ---------- Payment ---------- */
+
+/* The bubble that holds the payment note and the Pay now button */
+.message.pay-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.pay-button {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 18px;
+  background: #1a8a4a; /* green, different from the red buttons */
+  color: #ffffff;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+/* Applies while the button is switched off after a tap */
+.pay-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* The green "Payment successful" bubble (must stay after .message.bot) */
+.message.success {
+  background: #e6f6ec;
+  border: 1px solid #1a8a4a;
+  color: #12633a;
+  font-weight: bold;
+}
+
+/* ---------- Small screens ---------- */
+
+/* On very short screens (e.g. a phone held sideways) use tighter spacing so
+   more of the menu fits without scrolling */
+@media (max-height: 460px) {
+  .menu-panel-head {
+    padding: 6px 16px;
+  }
+
+  .menu-item-add {
+    padding: 5px 14px;
+  }
+
+  .menu-panel-foot {
+    padding: 6px 12px;
+  }
+
+  .menu-panel-foot button {
+    padding: 6px 8px;
+  }
+}
