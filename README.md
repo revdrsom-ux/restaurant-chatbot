@@ -2,7 +2,9 @@
 
 A restaurant chatbot where customers place orders by sending numbers in a chat window. No login is needed: each device keeps its own session and order history. Payments use a Paystack test account.
 
-**Live demo:** _add your Render link here after deployment_
+**Live demo:** https://restaurant-chatbot-2mqa.onrender.com
+
+_The app runs on a free plan, so the first load can take up to a minute while it wakes up._
 
 ## Features
 
@@ -46,7 +48,7 @@ A restaurant chatbot where customers place orders by sending numbers in a chat w
 2. Clone the repository and open its folder:
 
 ```bash
-git clone https://github.com/YOUR-GITHUB-USERNAME/restaurant-chatbot.git
+git clone https://github.com/revdrsom-ux/restaurant-chatbot.git
 cd restaurant-chatbot
 ```
 
